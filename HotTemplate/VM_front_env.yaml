@@ -1,0 +1,7 @@
+parameters:
+  vm_name: smurfinder_front
+  image_id: c19f8c61-20da-4c08-b249-2005ba0efd10
+  flavor: m1.mini
+  mynet_id: {id}
+  security_group: {id}
+  router: {id}
