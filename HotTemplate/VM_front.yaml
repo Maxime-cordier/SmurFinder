@@ -1,0 +1,54 @@
+heat_template_version: "2021-04-16"
+
+description: "SmurFinder Front VM"
+
+parameters:
+  vm_name:
+    type: string
+    description: Name given to the VM
+    default: IAI3_02_VM_Front
+  image_id:
+    type: string
+    description: ID of image to use for front
+    default: d486bc06-16d6-4e78-a6d4-75a21b1ef964
+  flavor:
+    type: string
+    description: Name of Flavor to use for front
+    default: IAI3_02_Flavor
+  security_group:
+    type: string
+    description: ID of security group to use for front
+  mynet_id:
+    type: string
+    description: ID of network
+    default: 3a61a56f-e235-4f42-b4e1-acbab5788ee1
+  router_id:
+    type: string
+    description: ID of router
+    default: 3a61a56f-e235-4f42-b4e1-acbab5788ee1
+
+
+resources: 
+  MyServer: 
+    type: "OS::Nova::Server"
+    properties:
+      name: { get_param: vm_name }
+      image: { get_param: image_id }
+      flavor: { get_param: flavor }
+      security_groups: 
+        - { get_param: security_group }
+      networks:
+        - network: { get_param: mynet_id }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        users:
+          - name: front
+            plain_text_passwd: frontpass
+            home: /home/front
+            lock_passwd: false
+            shell: /bin/bash
+            groups: 
+              - sudo
+              - docker
+        final_message: “System is up”

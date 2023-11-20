@@ -2,7 +2,7 @@ parameters:
   vm_name: smurfinder_back
   image_id: c19f8c61-20da-4c08-b249-2005ba0efd10
   flavor: m1.mini
-  mynet_id: 3a61a56f-e235-4f42-b4e1-acbab5788ee1
+  mynet_id: 369afa70-3c28-4fee-8978-fd66108ff73c
   security_group_id: 9d7c3fe2-1da7-45a6-85c4-04642a849f90
   router_id: 2290a507-4122-430a-a638-b51892fb8e11
   volume_id: 2c0f5bd2-6679-4466-b3f5-9d59b88f7413
