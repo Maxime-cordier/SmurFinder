@@ -1,0 +1,94 @@
+heat_template_version: 2018-08-31
+
+description: >
+  Heat Template to create a server, a router, and two virtual machines
+
+parameters:
+  flavor:
+    type: string
+    description: Flavor for the instances
+    default: m1.mini
+
+  image:
+    type: string
+    description: Image to be used for the instances
+    default: c19f8c61-20da-4c08-b249-2005ba0efd10
+
+  security_group_front:
+    type: string
+    description: Security Group ID for virtual-machine-1
+    default: 2d430dc8-3d4b-4a2c-b9d8-70d70eced6bc
+
+  security_group_back:
+    type: string
+    description: Security Group ID for virtual-machine-2
+    default: 9d7c3fe2-1da7-45a6-85c4-04642a849f90
+
+# TODO: add userdata
+resources:
+  main_server:
+    type: OS::Nova::Server
+    properties:
+      name: SmurFinder-Server
+      flavor: { get_param: flavor }
+      image: { get_param: image }
+      networks:
+        - port: { get_resource: main_server_port }
+      
+
+  main_server_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: internal_network }
+
+  router:
+    type: OS::Neutron::Router
+
+  internal_network:
+    type: OS::Neutron::Net
+
+  internal_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      network_id: { get_resource: internal_network }
+      cidr: 192.168.1.0/24
+      gateway_ip: 192.168.1.1
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: router }
+      subnet_id: { get_resource: internal_subnet }
+
+  vm1:
+    type: OS::Nova::Server
+    properties:
+      name: SmurFinder-VM-Front
+      flavor: { get_param: flavor }
+      image: { get_param: image }
+      networks:
+        - port: { get_resource: vm1_port }
+
+  vm2:
+    type: OS::Nova::Server
+    properties:
+      name: SmurFinder-VM-Back
+      flavor: { get_param: flavor }
+      image: { get_param: image }
+      networks:
+        - port: { get_resource: vm2_port }
+
+  vm1_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: internal_network }
+
+  vm2_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: internal_network }
+
+outputs:
+  server_ip:
+    description: IP address of the main server
+    value: { get_attr: [main_server, first_address] }
