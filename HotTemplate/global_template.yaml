@@ -24,35 +24,32 @@ parameters:
     description: Security Group ID for virtual-machine-2
     default: 9d7c3fe2-1da7-45a6-85c4-04642a849f90
 
-# TODO: add userdata
+  external-enssat:
+    type: string
+    description: External ENSSAT network
+    default: b2f07d8a-5b46-4fc8-a54e-e9cf4de8bee0
+  
+  floating-ip:
+    type: string
+    description: External ENSSAT network's floating ip
+    default: 148.60.225.69 
+
 resources:
-  main_server:
-    type: OS::Nova::Server
-    properties:
-      name: SmurFinder-Server
-      flavor: { get_param: flavor }
-      image: { get_param: image }
-      networks:
-        - port: { get_resource: main_server_port }
-      
-
-  main_server_port:
-    type: OS::Neutron::Port
-    properties:
-      network: { get_resource: internal_network }
-
-  router:
-    type: OS::Neutron::Router
-
   internal_network:
-    type: OS::Neutron::Net
+      type: OS::Neutron::Net
 
   internal_subnet:
     type: OS::Neutron::Subnet
     properties:
       network_id: { get_resource: internal_network }
       cidr: 192.168.1.0/24
-      gateway_ip: 192.168.1.1
+    
+  router:
+    type: OS::Neutron::Router
+    properties:
+      name: "Router-SmurFinder"
+      external_gateway_info:
+        network: { get_param: external-enssat }
 
   router_interface:
     type: OS::Neutron::RouterInterface
@@ -60,12 +57,38 @@ resources:
       router_id: { get_resource: router }
       subnet_id: { get_resource: internal_subnet }
 
+  floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: external-enssat }
+
+  floating_ip_router_assoc:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: floating_ip }
+      #floatingip_id: eacabffb-d5fb-4659-bfc7-b4122650e8ae
+      port_id: { get_resource: vm1_port }
+      
+# voir software-config
   vm1:
     type: OS::Nova::Server
     properties:
       name: SmurFinder-VM-Front
       flavor: { get_param: flavor }
       image: { get_param: image }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        users:
+          - name: front
+            plain_text_passwd: pass
+            home: /home/front
+            lock_passwd: false
+            shell: /bin/bash
+            groups: 
+              - sudo
+              - docker
+        final_message: “Front system is up”
       networks:
         - port: { get_resource: vm1_port }
 
@@ -75,20 +98,38 @@ resources:
       name: SmurFinder-VM-Back
       flavor: { get_param: flavor }
       image: { get_param: image }
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        users:
+          - name: back
+            plain_text_passwd: pass
+            home: /home/back
+            lock_passwd: false
+            shell: /bin/bash
+            groups: 
+              - sudo
+              - docker
+        final_message: “Back system is up”
       networks:
         - port: { get_resource: vm2_port }
 
+# spécifier adresses IP pour chaque port (back surtout peut être intéressant pour savoir sur quelle adresse requêter depuis le front)
   vm1_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: internal_network }
+      fixed_ips:
+        - subnet_id: { get_resource: internal_subnet }
 
   vm2_port:
     type: OS::Neutron::Port
     properties:
       network: { get_resource: internal_network }
+      fixed_ips: 
+        - ip_address: "192.168.1.3"
 
 outputs:
-  server_ip:
-    description: IP address of the main server
-    value: { get_attr: [main_server, first_address] }
+  smurfinder_app:
+    description: IP address of the front VM for SmurFinder Application
+    value: { get_attr: [vm1, first_address] }
