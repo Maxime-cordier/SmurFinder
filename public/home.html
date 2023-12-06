@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SmurFinder</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex justify-center items-center h-screen">
+    <div>
+        <button id="GoHome" class="items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go to SmurFinder</button>
+        <img src="/images/smurfs.png" alt="Smurfs Image" class="block mx-auto mb-8">
+    </div>
+
+    <script>
+        document.getElementById('GoHome').addEventListener('click', function() {
+            window.location.href = '/Smurf';
+        });
+    </script>
+</body>
+</html>
+
