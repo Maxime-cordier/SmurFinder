@@ -2,10 +2,57 @@
 <html>
 <head>
     <title>SmurFinder</title>
-    <link href="./output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 4%;
+            margin-left: 30%;
+            margin-right: 30%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        /* Classe pour redimensionner les images */
+        .smurf-image {
+            width: 10%;
+            height: 15%;
+        }
+    </style>
 </head>
 <body>
-    <h1 class="text-xl">Hello, World!</h1>
-    <p>This is my first HTML page.</p>
+    <button id="return" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Home</button>
+    <h1>Here the list of smurfs</h1>
+    <div id="smurfList"></div>
+
+    <script>
+        document.getElementById('return').addEventListener('click', function() {
+            window.location.href = '/Home';
+        });
+
+        // Fetch the list of smurfs from the server
+        fetch('/SmurfList')
+            .then(response => response.json())
+            .then(data => {
+                const smurfList = document.getElementById('smurfList');
+                data.forEach(smurf => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    
+                    const content = `
+                        <h2>${smurf.name}</h2>
+                        <p>Age: ${smurf.age}</p>
+                        <p>Role: ${smurf.role}</p>
+                        <p>Quote: "${smurf.quote}"</p>
+                        <img src="${smurf.image}" class="smurf-image" />
+                    `;
+                    card.innerHTML = content;
+
+                    smurfList.appendChild(card);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
 </body>
 </html>
