@@ -8,7 +8,7 @@ const app = express();
 const port = 'HIT_COUNTER_PORT' in process.env ? process.env.HIT_COUNTER_PORT : 3001
 
 // Importation of mongodb environment parameters
-const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "localhost"
+const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "192.168.1.3"
 const mongoPort = 'MONGO_PORT' in process.env ? process.env.MONGO_PORT : 27017
 const mongoUser = 'MONGO_USER' in process.env ? process.env.MONGO_USER : "admin"
 const mongoPassword = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
