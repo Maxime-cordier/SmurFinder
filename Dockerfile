@@ -7,9 +7,6 @@ WORKDIR /usr/src/smurfinder
 # Copy current directory content from host to the container’s directory 
 COPY . .
 
-# Definition of the environment parameters
-ENV HIT_COUNTER_PORT 3000 
-
 # Run the npm install command to get the node_modules directories 
 RUN npm install
 
