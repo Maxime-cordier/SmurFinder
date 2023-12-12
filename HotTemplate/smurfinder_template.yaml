@@ -98,7 +98,6 @@ resources:
             - docker
       runcmd:
         - 'cd /home/front'
-        - 'mkdir coucou'
         - 'git clone https://github.com/Maxime-cordier/SmurFinder.git'
         - 'cd SmurFinder'
         - 'docker build -t smurfinder:latest'
@@ -136,7 +135,6 @@ resources:
               - docker
         runcmd:
           - 'cd /home/back'
-          - 'mkdir coucou'
           - 'git clone https://github.com/Maxime-cordier/SmurFinder.git'
           - 'cd SmurFinder'
           - 'docker-compose -f docker-compose-back.yml up'
