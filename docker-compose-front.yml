@@ -1,7 +1,7 @@
 version: '3.9'
 
 services:
-  smurfinder:
+  app:
     image: smurfinder:latest
     build: .
     restart: always
