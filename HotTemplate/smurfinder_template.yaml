@@ -18,6 +18,25 @@ parameters:
     type: string
     description: Security Group ID for virtual-machine-1
     default: 2d430dc8-3d4b-4a2c-b9d8-70d70eced6bc
+    properties:
+      name: "Security_Group_Front"
+      description: "Security group for front side of SmurFinder app"
+      rules:
+        - direction: ingress
+          ethertype: IPv4
+          port_range_min: 22
+          port_range_max: 22
+          protocol: tcp
+        - direction: ingress
+          ethertype: IPv4
+          port_range_min: 80
+          port_range_max: 80
+          protocol: tcp
+        - direction: ingress
+          ethertype: IPv4
+          port_range_min: 443
+          port_range_max: 443
+          protocol: tcp 
 
   security_group_back:
     type: string
@@ -66,7 +85,6 @@ resources:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       floatingip_id: { get_resource: floating_ip }
-      #floatingip_id: eacabffb-d5fb-4659-bfc7-b4122650e8ae
       port_id: { get_resource: vm1_port }
       
 # voir software-config
@@ -76,6 +94,8 @@ resources:
       name: SmurFinder-VM-Front
       flavor: { get_param: flavor }
       image: { get_param: image }
+      security_groups:
+        - { get_resource: security_group_front }
       user_data_format: RAW
       user_data: { get_resource: cloud-init-config-front }
       networks:
@@ -113,10 +133,15 @@ resources:
       name: SmurFinder-VM-Back
       flavor: { get_param: flavor }
       image: { get_param: image }
+      security_groups:
+        - { get_resource: security_group_back }
       user_data_format: RAW
       user_data: { get_resource: cloud-init-config-back }
       networks:
         - port: { get_resource: vm2_port }
+      block_device_mapping_v2:
+          - device_name: /data/db  # Adjust the device name as needed
+            volume_id: { get_resource: volume_back }
 
   cloud-init-config-back:
     # cloud init resource
@@ -156,6 +181,11 @@ resources:
       network: { get_resource: internal_network }
       fixed_ips: 
         - ip_address: "192.168.1.3"
+
+  volume_back:
+    type: OS::Cinder::Volume
+    properties:
+      size: 2
 
 outputs:
   smurfinder_app:

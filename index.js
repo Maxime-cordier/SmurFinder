@@ -5,13 +5,13 @@ const path = require('path');
 
 const app = express();
 // Importation of hit counter environment parameters
-const port = 'HIT_COUNTER_PORT' in process.env ? process.env.HIT_COUNTER_PORT : 3001
+const port = 'SMURFINDER_PORT' in process.env ? process.env.SMURFINDER_PORT : 3000
 
 // Importation of mongodb environment parameters
 const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "192.168.1.3"
 const mongoPort = 'MONGO_PORT' in process.env ? process.env.MONGO_PORT : 27017
 const mongoUser = 'MONGO_USER' in process.env ? process.env.MONGO_USER : "admin"
-const mongoPassword = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
+const mongoPasswordport = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
 const mongoConnection = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
 // mongodb connection init
 const mongClient = new mongodb.MongoClient(mongoConnection);
