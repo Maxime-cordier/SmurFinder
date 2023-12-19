@@ -9,6 +9,7 @@ COPY . .
 
 # Set environement variable SMURFINDER_PORT
 ENV SMURFINDER_PORT=80
+ENV MONGO_HOST="192.168.1.3"
 
 # Run the npm install command to get the node_modules directories 
 RUN npm install
