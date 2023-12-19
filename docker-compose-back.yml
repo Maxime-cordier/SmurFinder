@@ -9,5 +9,5 @@ services :
     environment: 
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: pass123
-    volumes:
-      - /data/db:/data/db
+    # volumes:
+    #   - /data/db:/data/db
