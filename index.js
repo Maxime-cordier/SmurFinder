@@ -77,7 +77,7 @@ app.get('/Smurf', async (req, res) => {
 	res.sendFile(path.join(__dirname, 'public', 'main.html'));	
 })
 
-app.get('/Home', async (req, res) => {
+app.get('/', async (req, res) => {
 	// Connection to the mongodb service
 	await mongClient.connect()
 	// Creation of a "smurfinder_db" database
