@@ -3,11 +3,14 @@
 <head>
     <title>SmurFinder</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="./additional-style.css" rel="stylesheet">
 </head>
-<body class="flex justify-center items-center h-screen">
-    <div>
-        <button id="GoHome" class="items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go to SmurFinder</button>
-        <img src="/images/smurfs.png" alt="Smurfs Image" class="block mx-auto mb-8">
+<body class="flex flex-col justify-center items-center h-screen">
+    <h1>Welcome to the SmurFinder app !</h1>
+    <p class="px-10 pb-5">Your go-to app for discovering and listing all your favorite Smurfs. Explore their unique traits, stories, and charm within seconds. Let's dive into the magical world of Smurfs together!</p>
+    <div class="flex flex-col justify-center items-center">
+        <button id="GoHome" class="w-fit mb-[10px] items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Go to SmurFinder</button>
+        <img src="/images/smurfs.png" alt="Smurfs Image" class="block mx-auto mt-8">
     </div>
 
     <script>
