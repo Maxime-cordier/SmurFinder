@@ -11,7 +11,7 @@ const port = 'SMURFINDER_PORT' in process.env ? process.env.SMURFINDER_PORT : 80
 const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "192.168.1.3"
 const mongoPort = 'MONGO_PORT' in process.env ? process.env.MONGO_PORT : 27017
 const mongoUser = 'MONGO_USER' in process.env ? process.env.MONGO_USER : "admin"
-const mongoPasswordport = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
+const mongoPassword = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
 const mongoConnection = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
 // mongodb connection init
 const mongClient = new mongodb.MongoClient(mongoConnection);
