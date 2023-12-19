@@ -63,28 +63,34 @@ resources:
     properties:
         name: "Security_Group_Front"
         description: "Security group for front side of SmurFinder app"
-        # rules:
-          # - direction: ingress
-          #   ethertype: IPv4
-          #   port_range_min: 22
-          #   port_range_max: 22
-          #   protocol: tcp
-          # - direction: ingress
-          #   ethertype: IPv4
-          #   port_range_min: 80
-          #   port_range_max: 80
-          #   protocol: tcp
-          # - direction: ingress
-          #   ethertype: IPv4
-          #   port_range_min: 443
-          #   port_range_max: 443
-          #   protocol: tcp 
-
+        rules:
+          - direction: ingress
+            ethertype: IPv4
+            port_range_min: 22
+            port_range_max: 22
+            protocol: tcp
+          - direction: ingress
+            ethertype: IPv4
+            port_range_min: 80
+            port_range_max: 80
+            protocol: tcp
+          - direction: ingress
+            ethertype: IPv4
+            port_range_min: 443
+            port_range_max: 443
+            protocol: tcp 
+  # TODO fix security group issue (connection to MongoDB from front fail)
   security_group_back:
     type: "OS::Neutron::SecurityGroup"
     properties:
         name: "Security_Group_Back"
         description: "Security group for back side of SmurFinder app"
+        rules:
+          - direction: ingress
+            ethertype: IPv4
+            port_range_min: 27017
+            port_range_max: 27017
+            protocol: tcp 
         
 # voir software-config
   vm1:
