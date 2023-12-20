@@ -12,7 +12,7 @@ const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "localh
 const mongoPort = 'MONGO_PORT' in process.env ? process.env.MONGO_PORT : 27017
 const mongoUser = 'MONGO_USER' in process.env ? process.env.MONGO_USER : "admin"
 const mongoPassword = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
-const mongoConnection = `mongodb://${mongoHost}:${mongoPort}`;
+const mongoConnection = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
 
 const mongClient = new mongodb.MongoClient(mongoConnection);
 
