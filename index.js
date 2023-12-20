@@ -1,19 +1,19 @@
+const smurfsData = require('./smurfs');
 const process = require('process');
 const express = require('express');
 let mongodb = require('mongodb');
 const path = require('path');
 
 const app = express();
-// Importation of hit counter environment parameters
-const port = 'SMURFINDER_PORT' in process.env ? process.env.SMURFINDER_PORT : 3005
 
-// Importation of mongodb environment parameters
+const port = 'SMURFINDER_PORT' in process.env ? process.env.SMURFINDER_PORT : 3008
+
 const mongoHost = 'MONGO_HOST' in process.env ? process.env.MONGO_HOST : "localhost"
 const mongoPort = 'MONGO_PORT' in process.env ? process.env.MONGO_PORT : 27017
 const mongoUser = 'MONGO_USER' in process.env ? process.env.MONGO_USER : "admin"
 const mongoPassword = 'MONGO_PASSWORD' in process.env ? process.env.MONGO_PASSWORD : "pass123"
-const mongoConnection = `mongodb://${mongoUser}:${mongoPassword}@${mongoHost}:${mongoPort}`;
-// mongodb connection init
+const mongoConnection = `mongodb://${mongoHost}:${mongoPort}`;
+
 const mongClient = new mongodb.MongoClient(mongoConnection);
 
 async function addSmurfs(req, res) {
@@ -25,44 +25,7 @@ async function addSmurfs(req, res) {
 	let smurfs = database.collection('smurfs')
 	let smurfsCount = await smurfs.countDocuments()
 	if (smurfsCount === 0){
-		await smurfs.insertMany([
-			{	id : 1,
-				name : "Papa Smurf",
-				age : 542,
-				role : "Village leader",
-				quote : "I'm the village leader, I'm always right.",
-				image : "./images/papa_smurf.png"
-			},
-			{	id : 2,
-				name : "Smurfette",
-				age : 326,
-				role : "Village lady",
-				quote : "I'm the village lady, I'm always right.",
-				image : "./images/smurfette.png"
-			},
-			{	id : 3,
-				name : "Brainy Smurf",
-				age : 326,
-				role : "Scientist",
-				quote : "I have a big brain !",
-				image : "./images/brainy_smurf.png"
-			},
-			{	id : 4,
-				name : "Grouchy Smurf",
-				age : 326,
-				role : "Grumpy",
-				quote : "I'm always grumpy.",
-				image : "./images/Grouchy Smurf.png"
-			},
-			{	id : 5,
-				name : "Jokey Smurf",
-				age : 326,
-				role : "Joker",
-				quote : "I'm always joker.",
-				image : "./images/Jokey Smurf.png"
-			}
-			]
-	)
+		await smurfs.insertMany(smurfsData.list)
 
 	}
 	
@@ -72,18 +35,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/Smurf', async (req, res) => {
 
-	addSmurfs(req,res)
-
 	res.sendFile(path.join(__dirname, 'public', 'main.html'));	
 })
 
 app.get('/', async (req, res) => {
-	// Connection to the mongodb service
-	await mongClient.connect()
-	// Creation of a "smurfinder_db" database
-	let database = mongClient.db("smurfinder_db")
-	// Creation of a "hits" collection
-	let smurfs = database.collection('smurfs')
+
+	addSmurfs(req,res)
 
 	res.sendFile(path.join(__dirname, 'public', 'home.html'));
 
