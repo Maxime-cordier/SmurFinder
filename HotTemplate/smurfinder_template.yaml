@@ -1,4 +1,3 @@
-# TODO add env file for the paremeters
 heat_template_version: 2018-08-31
 
 description: >
@@ -87,7 +86,8 @@ resources:
             port_range_min: 27017
             port_range_max: 27017
             protocol: tcp 
-        
+
+  # VM correspondant à la partie frontend de l'application   
   vm1:
     type: OS::Nova::Server
     properties:
@@ -124,6 +124,7 @@ resources:
         - git
         - npm
 
+  # VM correspondant à la partie backend de l'application
   vm2:
     type: OS::Nova::Server
     properties:
@@ -180,7 +181,7 @@ resources:
     type: OS::Cinder::Volume
     properties:
       size: 2
-
+      
 outputs:
   smurfinder_app:
     description: IP address of the front VM for SmurFinder Application

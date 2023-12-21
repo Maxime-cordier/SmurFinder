@@ -1,0 +1,4 @@
+parameters:
+  flavor: m1.mini
+  image: c19f8c61-20da-4c08-b249-2005ba0efd10
+  external-enssat: b2f07d8a-5b46-4fc8-a54e-e9cf4de8bee0 
