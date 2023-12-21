@@ -15,12 +15,12 @@ L'application est divisée en 2 parties : frontend & backend. Chaque partie est 
 
 ## Comment déployer le projet ? 
 1. Identifiez le fichier *smurfinder_template.yaml* dans le répertoire HotTemplate.
-1. ***(Optionel)*** Modifier les paramètres d'environnement dans le fichier *smurfinder_template_env.yml*
+1. ***(Optionnel)*** Modifier les paramètres d'environnement dans le fichier *smurfinder_template_env.yml*
 1. Connectez-vous sur OpenStack.
-1. Cliquez sur le menu ***Orchestration*** puis sur ***Stack**.
+1. Cliquez sur le menu ***Orchestration*** puis sur ***Stack***.
 1. Déployez une nouvelle stack en cliquant sur ***Launch Stack***.
-1. Renseignez le 'Template source' (='File') et le "Template file" (='smurfinder_template.yaml').
-1. Cliquez sur *Next* pour lancer la stack.
+1. Renseignez le 'Template source'='File') et le "Template file" (='smurfinder_template.yaml') et optionnellement le "Environment Source"(='File') , puis cliquez sur ***Next***.
+1. Donnez le nom de votre choix à la stack (par exemple : *IAI3_02_SmurFinder*) et saisissez votre mot de passe dans le champ dédié, puis appuyez sur ***Launch*** pour lancer la stack.
 1. Retenez l'adresse IP du service. Cliquez sur le menu ***Network*** puis sur ***Floatings IP***. L'adresse IP (@IPSmurfinder) du service SmurFinder correspond à celle associée à la machine virtuelle front. 
 ![Screenshot](./readme_pictures/IPSmurfinder_place.png)
 1. Dans un moteur de recherche, renseignez l'URL suvante : *http://@IPSmurfinder*
